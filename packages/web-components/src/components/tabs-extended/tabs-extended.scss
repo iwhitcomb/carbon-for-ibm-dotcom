@@ -1,0 +1,7 @@
+@import '@carbon/ibmdotcom-styles/scss/globals/vars';
+@import '@carbon/ibmdotcom-styles/scss/themes/expressive/components/tabs';
+@import 'carbon-web-components/scss/components/tabs/tabs';
+
+:host(#{$dds-prefix}-tabs-extended) {
+  margin: 2rem;
+}
