@@ -22,6 +22,33 @@ const { stablePrefix: ddsPrefix } = ddsSettings;
  */
 @customElement(`${ddsPrefix}-tabs-extended`)
 class DDSTabsExtended extends StableSelectorMixin(BXTabs) {
+  /**
+   * A selector that will return tabs.
+   */
+  static get selectorItem() {
+    return `${ddsPrefix}-tabs-extended-tab`;
+  }
+
+  /**
+   * A selector that will return enabled tabs.
+   */
+  static get selectorItemEnabled() {
+    return `${ddsPrefix}-tabs-extended-tab:not([disabled])`;
+  }
+
+  /**
+   * A selector that will return highlighted tabs.
+   */
+  static get selectorItemHighlighted() {
+    return `${ddsPrefix}-tabs-extended-tab[highlighted]`;
+  }
+
+  /**
+   * A selector that will return selected tabs.
+   */
+  static get selectorItemSelected() {
+    return `${ddsPrefix}-tabs-extended-tab[selected]`;
+  }
   static styles = styles;
 }
 

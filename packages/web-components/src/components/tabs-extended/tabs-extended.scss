@@ -1,7 +1,282 @@
 @import '@carbon/ibmdotcom-styles/scss/globals/vars';
 @import '@carbon/ibmdotcom-styles/scss/themes/expressive/components/tabs';
+@import 'carbon-components/scss/globals/scss/css--helpers';
+@import 'carbon-components/scss/components/tabs/tabs';
 @import 'carbon-web-components/scss/components/tabs/tabs';
 
+
+:host(#{$dds-prefix}-tabs-extended),
+:host(#{$dds-prefix}-tabs-extended-skeleton) {
+  @extend .#{$prefix}--tabs;
+  grid-column: 1 / span 8;
+  grid-row: 1;
+  .bx-ce-demo-devenv--tab-panels {
+    grid-column: 1 / span 8;
+    grid-row: 2;
+  }
+}
+
 :host(#{$dds-prefix}-tabs-extended) {
-  margin: 2rem;
+  @include focus-outline('reset');
+
+  .#{$prefix}--tabs-trigger svg {
+    width: auto;
+    height: auto;
+  }
+}
+
+:host(#{$dds-prefix}-tabs-extended:focus) {
+  .#{$prefix}--tabs-trigger {
+    @include focus-outline('outline');
+  }
+}
+
+:host(#{$dds-prefix}-tabs-extended[type='container']) {
+  @extend .#{$prefix}--tabs--container;
+}
+
+:host(#{$dds-prefix}-tabs-extended-tab) {
+  @extend .#{$prefix}--tabs__nav-item;
+
+  outline: none;
+
+  .#{$dds-prefix}--tabs__nav-link:active {
+    @include focus-outline('reset');
+  }
+}
+
+:host(#{$dds-prefix}-tabs-extended-tab:hover) {
+  @include carbon--breakpoint(md) {
+    background-color: transparent;
+    box-shadow: none;
+  }
+
+  background-color: $hover-ui;
+  box-shadow: 0 -1px 0 $hover-ui;
+}
+
+:host(#{$dds-prefix}-tabs-extended-tab[type='container']) {
+  @include carbon--breakpoint(md) {
+    background-color: $ui-03;
+
+    & + .#{$dds-prefix}--tabs__nav-item {
+      margin-left: 0;
+      // Draws the border without affecting the inner-content
+      box-shadow: -1px 0 0 0 $ui-04;
+    }
+
+    & + .#{$dds-prefix}--tabs__nav-item.#{$prefix}--tabs__nav-item--selected,
+    &.#{$dds-prefix}--tabs__nav-item--selected + .#{$prefix}--tabs__nav-item {
+      box-shadow: none;
+    }
+  }
+
+  &:hover {
+    @include carbon--breakpoint(md) {
+      background-color: $hover-selected-ui;
+    }
+  }
+
+  a.#{$dds-prefix}--tabs__nav-link {
+    @include carbon--breakpoint(md) {
+      height: rem(48px);
+      line-height: calc(#{rem(48px)} - (#{$spacing-03} * 2)); // height - vertical padding
+    }
+  }
+}
+
+// `[role]` is only for specificity.
+// We have `:not()` usage in the corresponding Carbon core style
+// which puts specificity of "specific" scenario though the style is for "regular" scenario
+:host(#{$dds-prefix}-tabs-extended-tab[type='container'][role]),
+:host(#{$dds-prefix}-tabs-extended-tab[type='container'][role]:hover) {
+  a.#{$dds-prefix}--tabs__nav-link {
+    @include carbon--breakpoint(md) {
+      border-bottom: none;
+    }
+  }
+}
+
+// `[role]` is only for specificity.
+// We have `:not()` usage in the corresponding Carbon core style
+// which puts specificity of "specific" scenario though the style is for "regular" scenario
+:host(#{$dds-prefix}-tabs-extended-tab[disabled][role]),
+:host(#{$dds-prefix}-tabs-extended-tab[disabled][role]:hover) {
+  background-color: $ui-01;
+  box-shadow: none;
+  cursor: not-allowed;
+  outline: none;
+
+  @include carbon--breakpoint(md) {
+    background-color: transparent;
+  }
+
+  .#{$dds-prefix}--tabs__nav-link {
+    color: $tab-text-disabled;
+    pointer-events: none;
+
+    @include carbon--breakpoint(md) {
+      border-bottom: $tab-underline-disabled;
+    }
+  }
+}
+
+:host(#{$dds-prefix}-tabs-extended-tab[type='container'][disabled][role]),
+:host(#{$dds-prefix}-tabs-extended-tab[type='container'][disabled][role]:hover) {
+  @include carbon--breakpoint(md) {
+    background-color: $disabled-02;
+  }
+}
+
+:host(#{$dds-prefix}-tabs-extended-tab[type='container'][disabled][role]) .#{$prefix}--tabs__nav-link {
+  @include carbon--breakpoint(md) {
+    color: $disabled-03;
+  }
+}
+
+:host(#{$dds-prefix}-tabs-extended-tab[selected]) {
+  background-color: $hover-ui;
+  transition: color $duration--fast-01 motion(standard, productive);
+
+  &:hover {
+    background-color: $selected-ui;
+
+    @include carbon--breakpoint(md) {
+      background-color: transparent;
+    }
+  }
+
+  .#{$dds-prefix}--tabs__nav-link {
+    &,
+      // Need to override Carbon core's non-selected focus color
+    &:focus,
+    &:active {
+      color: $text-01;
+    }
+  }
+
+  @include carbon--breakpoint(md) {
+    display: flex;
+    background-color: transparent;
+
+    .#{$prefix}--tabs__nav-link {
+      @include type-style('heading-01');
+      border-bottom: 3px solid $interactive-01;
+
+      &:focus,
+      &:active {
+        border-bottom-width: 2px;
+      }
+    }
+  }
+}
+
+:host(#{$dds-prefix}-tabs-extended-tab[type='container'][selected]),
+:host(#{$dds-prefix}-tabs-extended-tab[type='container'][selected]:hover) {
+  @include carbon--breakpoint(md) {
+    background-color: $ui-01;
+
+    .#{$dds-prefix}--tabs__nav-link {
+      line-height: calc(#{rem(48px)} - (#{$spacing-03} * 2)); // height - vertical padding
+      // Draws the border without affecting the inner-content
+      box-shadow: inset 0 2px 0 0 $interactive-04;
+      border-bottom: none;
+    }
+
+    .#{$dds-prefix}--tabs__nav-link:focus,
+    .#{$dds-prefix}--tabs__nav-link:active {
+      box-shadow: none;
+    }
+  }
+}
+
+:host(#{$dds-prefix}-tabs-extended-tab[highlighted]),
+:host(#{$dds-prefix}-tabs-extended-tab[highlighted]:hover) {
+  background-color: $hover-ui;
+  box-shadow: 0 -1px 0 $hover-ui;
+
+  // `highlighted` is not used in wide mode,
+  // but we need guard for a scenario where a tab is highlighted and then the UI turned to wide mode
+  @include carbon--breakpoint(md) {
+    background-color: transparent;
+    box-shadow: none;
+  }
+}
+
+:host(#{$dds-prefix}-tabs-extended-tab[in-focus][selected]),
+:host(#{$dds-prefix}-tabs-extended-tab[in-focus][selected]:hover) {
+  @include carbon--breakpoint(md) {
+    @include focus-outline('outline');
+
+    // `[role]` is only for specificity.
+    // We have `:not()` usage in the corresponding Carbon core style
+    // which puts specificity of "specific" scenario though the style is for "regular" scenario
+    a.#{$dds-prefix}--tabs__nav-link[role] {
+      border-bottom-width: 2px;
+    }
+  }
+}
+
+:host(#{$dds-prefix}-tabs-extended-tab[highlighted][selected]),
+:host(#{$dds-prefix}-tabs-extended-tab[highlighted][selected]:hover) {
+  background-color: $selected-ui;
+
+  // `highlighted` is not used in wide mode,
+  // but we need guard for a scenario where a tab is highlighted and then the UI turned to wide mode
+  @include carbon--breakpoint(md) {
+    background-color: transparent;
+  }
+}
+
+// Disabled tab never gets selected, but we guard for manual addition of `selected` attribute
+:host(#{$dds-prefix}-tabs-extended-tab[disabled][selected]),
+:host(#{$dds-prefix}-tabs-extended-tab[disabled][selected]:hover),
+:host(#{$dds-prefix}-tabs-extended-tab[disabled][in-focus][selected]),
+:host(#{$dds-prefix}-tabs-extended-tab[disabled][in-focus][selected]:hover) {
+  display: flex;
+  background-color: $ui-01;
+  box-shadow: none;
+
+  @include carbon--breakpoint(md) {
+    @include focus-outline('reset');
+
+    background-color: transparent;
+  }
+
+  .#{$dds-prefix}--tabs__nav-link {
+    @include carbon--breakpoint(md) {
+      @include type-style('body-short-01');
+
+      color: $tab-text-disabled;
+      border-bottom: $tab-underline-disabled;
+
+      &:focus,
+      &:active {
+        border-bottom-width: 3px;
+      }
+    }
+  }
+}
+
+:host(#{$dds-prefix}-tabs-extended-skeleton) .#{$prefix}--tabs-trigger {
+  @include skeleton;
+  width: rem(100px);
+}
+
+:host(#{$dds-prefix}-tabs-extended-tab-skeleton) {
+  @include carbon--breakpoint(md) {
+    margin-left: rem(2px);
+  }
+
+  .#{$dds-prefix}--tabs__nav-link {
+    @include skeleton;
+    width: rem(75px);
+    height: rem(12px);
+  }
+}
+
+:host(#{$dds-prefix}-tabs-extended-tab-skeleton:first-of-type) {
+  @include carbon--breakpoint(md) {
+    margin-left: 0;
+  }
 }
